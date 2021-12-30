@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// Styles
+import './assets/style.scss';
+
+// Components
+import EventSignUpForm from './components/EventSignUpForm';
+import EventSignUpList from './components/EventSignUpList';
+import Header from './components/Header';
+
+const App = () => {
+
+    const [userSignedIn, setUserSignedIn] = useState(false);
+
+    return (
+        <>
+            <Header isSignedIn={userSignedIn} handleSignInClick={() => setUserSignedIn(true)}
+                    handleSignOutClick={() => setUserSignedIn(false)}/>
+            <div className={"section"}>
+                <div className={"container"}>
+                    <h1 className={"title is-size-1"}>Welcome to the event sign up app</h1>
+                    {
+                        userSignedIn && <EventSignUpList/>
+                    }
+                    {
+                        !userSignedIn && <EventSignUpForm/>
+                    }
+                </div>
+            </div>
+        </>
+    );
 }
 
 export default App;
