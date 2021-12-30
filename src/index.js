@@ -4,16 +4,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 // Redux
-import { Provider} from "react-redux";
-
-import store from "./config/configureStore";
-
+import { StoreProvider } from "./reducers/eventReducer";
 
 ReactDOM.render(
   <React.StrictMode>
-      <Provider store={store}>
+      <StoreProvider>
           <App />
-      </Provider>
+      </StoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

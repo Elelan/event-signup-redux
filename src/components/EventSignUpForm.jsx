@@ -1,40 +1,34 @@
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import React, { useState, useContext } from 'react';
 
-// Actions
-import {addEventAttendee} from "../reducers/eventReducer";
+// Actions and redux
+import { StoreContext, createAction } from '../reducers/reducers';
+import { actions } from '../reducers/eventReducer';
 
 // Components
-import EventDetails from "./EventDetails";
+import EventDetails from './EventDetails';
 
 const _baseFormFields = {
-    name: "",
-    email: "",
-    number: ""
+    name: '',
+    email: '',
+    number: ''
 };
 
 const EventSignUpForm = () => {
-
+    const [state, dispatch] = useContext(StoreContext);
     const [signUpComplete, setSignUpComplete] = useState(false);
     const [formFields, setFormFields] = useState(_baseFormFields);
-    const dispatch = useDispatch();
 
     const handleOnChange = evt => {
-        evt.preventDefault();
         setFormFields({
             ...formFields,
             [evt.target.id]: evt.target.value,
         });
-    }
+    };
 
     const handleFormSubmit = evt => {
         evt.preventDefault();
-        const newEventAttendee = {
-            ...formFields,
-            attending: true
-        }
-        dispatch(addEventAttendee(newEventAttendee))
-        ;
+
+        dispatch(createAction(actions.ADD_ATTENDEE, {...formFields}));
         setSignUpComplete(true);
     };
 
@@ -45,8 +39,8 @@ const EventSignUpForm = () => {
 
     return (
         <>
-            <EventDetails/>
-            <div className={"box"}>
+            <EventDetails />
+            <div className="box">
                 {
                     !signUpComplete && (
                         <form onSubmit={handleFormSubmit}>
@@ -57,14 +51,12 @@ const EventSignUpForm = () => {
                                 <div className="field-body">
                                     <div className="field">
                                         <p className="control is-expanded">
-                                            <input className="input" type="text" placeholder="Name" id="name"
-                                                   value={formFields.name} onChange={handleOnChange}/>
+                                            <input className="input" type="text" placeholder="Name" id="name" value={formFields.name} onChange={handleOnChange}  />
                                         </p>
                                     </div>
                                     <div className="field">
                                         <p className="control is-expanded">
-                                            <input className="input" type="email" placeholder="Email" id="email"
-                                                   value={formFields.email} onChange={handleOnChange}/>
+                                            <input className="input" type="email" placeholder="Email" id="email" value={formFields.email} onChange={handleOnChange} />
                                         </p>
                                     </div>
                                 </div>
@@ -81,8 +73,7 @@ const EventSignUpForm = () => {
                                                 </a>
                                             </p>
                                             <p className="control is-expanded">
-                                                <input className="input" type="tel" placeholder="Your phone number"
-                                                       id="number" value={formFields.number} onChange={handleOnChange}/>
+                                                <input className="input" type="tel" placeholder="Your phone number" id="number" value={formFields.number} onChange={handleOnChange} />
                                             </p>
                                         </div>
                                         <p className="help">Do not enter the first zero</p>
@@ -105,14 +96,12 @@ const EventSignUpForm = () => {
                         </form>
                     )
                 }
-
                 {
                     signUpComplete && (
                         <>
                             <p className="is-subtitle is-size-4 has-text-primary">
                                 Thanks for signing up! We'll see you soon
-                                <button className="button is-link is-pulled-right" onClick={resetForm}>Add
-                                    another</button>
+                                <button className="button is-link is-pulled-right" onClick={resetForm}>Add another</button>
                             </p>
                         </>
                     )
@@ -120,6 +109,8 @@ const EventSignUpForm = () => {
             </div>
         </>
     );
-}
+};
 
 export default EventSignUpForm;
+
+
